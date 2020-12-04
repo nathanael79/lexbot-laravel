@@ -57,7 +57,7 @@
 </p>
 <div id="conversation" style="width: 400px; height: 400px; border: 1px solid #ccc; background-color: #eee; padding: 4px; overflow: scroll"></div>
 <form id="chatform" style="margin-top: 10px" onsubmit="return pushChat();">
-    <input type="text" id="wisdom" size="80" value="" placeholder="Test!">
+    <input type="text" id="wisdom" size="80" value="" placeholder="Welcome! What do you want to do?">
 </form>
 <script type="text/javascript">
     document.getElementById("wisdom").focus();
@@ -80,10 +80,17 @@
             http.onload = function() {
                 wisdomText.value = '';
                 wisdomText.locked = false;
-                showResponse(http.responseText);
+                responseJson = JSON.parse(http.responseText);
+                console.log(responseJson.dialogState);
+                if(responseJson.dialogState === 'Fulfilled'){
+                    wisdomText.locked = true;
+                }
+                showResponse(responseJson.message);
             }
         }
         return false;
+
+
     }
 
     function showRequest(daText) {

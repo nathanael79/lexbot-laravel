@@ -28,7 +28,12 @@ class MessageController extends Controller
             'userId' => $userId
         ]);
 
-//        return $result->get;
-        return $result->get('message');
+
+        $response = [
+            'message' => $result->get('message'),
+            'dialogState' => $result->get('dialogState')
+        ];
+
+        return response()->json($response, 200);
     }
 }
